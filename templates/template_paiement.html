@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/v-charts/lib/style.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.6/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/v-charts@1.19.0/lib/index.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Reporting - Paiements CB</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-content>
+                <v-app-bar color="light-blue darken-4" dense  dark  app clipped-left  elevate-on-scroll>
+                    <v-btn icon href="index.html">
+                        <v-icon>mdi-home</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>
+                        Reporting des données sur le service de Paiement en ligne CB <span style="font-size:small;">(généré le ${date})</span>
+                    </v-toolbar-title>
+                </v-app-bar>
+                <v-main>
+                    <v-container fluid>
+                        <br/>
+                        <v-carousel :height="carouselHeight" light hide-delimiter-background show-arrows-on-hover>
+                            <v-carousel-item>
+                                <v-card>
+                                    <v-toolbar dense flat>
+                                        <v-toolbar-title>Nombre de règlements par CB par date</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre total de règlements par CB: ${nbTotReglement}
+                                    </v-chip>
+                                    <ve-histogram :height="histogramHeight" :data="chartData1" :settings="chartSettings1">
+                                    </ve-histogram>
+                                </v-card>
+                            </v-carousel-item>
+                            <v-carousel-item>
+                                <v-card>
+                                    <v-toolbar dense flat>
+                                        <v-toolbar-title>Montant des règlements par CB par date</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Montant total des règlements par CB: ${mtTotReglement}
+                                    </v-chip>
+                                    <ve-histogram :height="histogramHeight" :data="chartData2" :settings="chartSettings2">
+                                    </ve-histogram>
+                                </v-card>
+                            </v-carousel-item>
+                        </v-carousel>
+                    </v-container>
+                </v-main>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script>
+    const app = new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        delimiters: ['${', '}'],
+        data() {
+            return {
+                date: {{date}},
+                carouselHeight: "700px",
+                histogramHeight: "600px",
+                nbTotReglement: {{nbTotReglement}},
+                mtTotReglement: {{mtTotReglement}},
+                chartSettings1: {dimension:{{dim1}}, metrics:{{metrics1}}, label:{normal: {show:true, position:"top"}}},
+                chartData1: {columns:{{cols1}}, rows:{{rows1}}},
+                chartSettings2: {dimension:{{dim2}}, metrics:{{metrics2}}, label:{normal: {show:true, position:"top"}}},
+                chartData2: {columns:{{cols2}}, rows:{{rows2}}},
+            }
+        }
+    })
+</script>
+</body>
+</html>

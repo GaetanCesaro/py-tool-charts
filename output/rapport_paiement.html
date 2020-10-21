@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/v-charts/lib/style.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.6/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/v-charts@1.19.0/lib/index.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Reporting - Paiements CB</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-content>
+                <v-app-bar color="light-blue darken-4" dense  dark  app clipped-left  elevate-on-scroll>
+                    <v-btn icon href="index.html">
+                        <v-icon>mdi-home</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>
+                        Reporting des données sur le service de Paiement en ligne CB <span style="font-size:small;">(généré le ${date})</span>
+                    </v-toolbar-title>
+                </v-app-bar>
+                <v-main>
+                    <v-container fluid>
+                        <br/>
+                        <v-carousel :height="carouselHeight" light hide-delimiter-background show-arrows-on-hover>
+                            <v-carousel-item>
+                                <v-card>
+                                    <v-toolbar dense flat>
+                                        <v-toolbar-title>Nombre de règlements par CB par date</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre total de règlements par CB: ${nbTotReglement}
+                                    </v-chip>
+                                    <ve-histogram :height="histogramHeight" :data="chartData1" :settings="chartSettings1">
+                                    </ve-histogram>
+                                </v-card>
+                            </v-carousel-item>
+                            <v-carousel-item>
+                                <v-card>
+                                    <v-toolbar dense flat>
+                                        <v-toolbar-title>Montant des règlements par CB par date</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Montant total des règlements par CB: ${mtTotReglement}
+                                    </v-chip>
+                                    <ve-histogram :height="histogramHeight" :data="chartData2" :settings="chartSettings2">
+                                    </ve-histogram>
+                                </v-card>
+                            </v-carousel-item>
+                        </v-carousel>
+                    </v-container>
+                </v-main>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script>
+    const app = new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        delimiters: ['${', '}'],
+        data() {
+            return {
+                date: '21/10/2020 16h32',
+                carouselHeight: "700px",
+                histogramHeight: "600px",
+                nbTotReglement: 766,
+                mtTotReglement: 44803239,
+                chartSettings1: {dimension:['Date'], metrics:['Nombre de reglements'], label:{normal: {show:true, position:"top"}}},
+                chartData1: {columns:['Nombre de reglements', 'Date'], rows:[{'Nombre de reglements': '1', 'Date': '2020-08-28'}, {'Nombre de reglements': '1', 'Date': '2020-09-01'}, {'Nombre de reglements': '3', 'Date': '2020-09-02'}, {'Nombre de reglements': '3', 'Date': '2020-09-03'}, {'Nombre de reglements': '23', 'Date': '2020-09-04'}, {'Nombre de reglements': '7', 'Date': '2020-09-05'}, {'Nombre de reglements': '4', 'Date': '2020-09-06'}, {'Nombre de reglements': '21', 'Date': '2020-09-07'}, {'Nombre de reglements': '20', 'Date': '2020-09-08'}, {'Nombre de reglements': '22', 'Date': '2020-09-09'}, {'Nombre de reglements': '21', 'Date': '2020-09-10'}, {'Nombre de reglements': '10', 'Date': '2020-09-11'}, {'Nombre de reglements': '1', 'Date': '2020-09-12'}, {'Nombre de reglements': '20', 'Date': '2020-09-14'}, {'Nombre de reglements': '11', 'Date': '2020-09-15'}, {'Nombre de reglements': '8', 'Date': '2020-09-16'}, {'Nombre de reglements': '8', 'Date': '2020-09-17'}, {'Nombre de reglements': '7', 'Date': '2020-09-18'}, {'Nombre de reglements': '2', 'Date': '2020-09-19'}, {'Nombre de reglements': '7', 'Date': '2020-09-20'}, {'Nombre de reglements': '12', 'Date': '2020-09-21'}, {'Nombre de reglements': '22', 'Date': '2020-09-22'}, {'Nombre de reglements': '29', 'Date': '2020-09-23'}, {'Nombre de reglements': '8', 'Date': '2020-09-24'}, {'Nombre de reglements': '16', 'Date': '2020-09-25'}, {'Nombre de reglements': '8', 'Date': '2020-09-26'}, {'Nombre de reglements': '23', 'Date': '2020-09-27'}, {'Nombre de reglements': '70', 'Date': '2020-09-28'}, {'Nombre de reglements': '90', 'Date': '2020-09-29'}, {'Nombre de reglements': '132', 'Date': '2020-09-30'}, {'Nombre de reglements': '30', 'Date': '2020-10-01'}, {'Nombre de reglements': '19', 'Date': '2020-10-02'}, {'Nombre de reglements': '7', 'Date': '2020-10-03'}, {'Nombre de reglements': '4', 'Date': '2020-10-04'}, {'Nombre de reglements': '10', 'Date': '2020-10-05'}, {'Nombre de reglements': '10', 'Date': '2020-10-06'}, {'Nombre de reglements': '14', 'Date': '2020-10-07'}, {'Nombre de reglements': '7', 'Date': '2020-10-08'}, {'Nombre de reglements': '5', 'Date': '2020-10-09'}, {'Nombre de reglements': '1', 'Date': '2020-10-10'}, {'Nombre de reglements': '4', 'Date': '2020-10-11'}, {'Nombre de reglements': '13', 'Date': '2020-10-12'}, {'Nombre de reglements': '1', 'Date': '2020-10-13'}, {'Nombre de reglements': '1', 'Date': '2020-10-14'}, {'Nombre de reglements': '5', 'Date': '2020-10-15'}, {'Nombre de reglements': '6', 'Date': '2020-10-16'}, {'Nombre de reglements': '1', 'Date': '2020-10-17'}, {'Nombre de reglements': '1', 'Date': '2020-10-18'}, {'Nombre de reglements': '11', 'Date': '2020-10-19'}, {'Nombre de reglements': '3', 'Date': '2020-10-20'}, {'Nombre de reglements': '3', 'Date': '2020-10-21'}]},
+                chartSettings2: {dimension:['Date'], metrics:['Montant des reglements'], label:{normal: {show:true, position:"top"}}},
+                chartData2: {columns:['Montant des reglements', 'Date'], rows:[{'Montant des reglements': '23482', 'Date': '2020-08-28'}, {'Montant des reglements': '19963', 'Date': '2020-09-01'}, {'Montant des reglements': '194381', 'Date': '2020-09-02'}, {'Montant des reglements': '141030', 'Date': '2020-09-03'}, {'Montant des reglements': '996517', 'Date': '2020-09-04'}, {'Montant des reglements': '379869', 'Date': '2020-09-05'}, {'Montant des reglements': '101430', 'Date': '2020-09-06'}, {'Montant des reglements': '950228', 'Date': '2020-09-07'}, {'Montant des reglements': '1233878', 'Date': '2020-09-08'}, {'Montant des reglements': '1548317', 'Date': '2020-09-09'}, {'Montant des reglements': '1003090', 'Date': '2020-09-10'}, {'Montant des reglements': '684939', 'Date': '2020-09-11'}, {'Montant des reglements': '79318', 'Date': '2020-09-12'}, {'Montant des reglements': '1300851', 'Date': '2020-09-14'}, {'Montant des reglements': '643170', 'Date': '2020-09-15'}, {'Montant des reglements': '401240', 'Date': '2020-09-16'}, {'Montant des reglements': '322370', 'Date': '2020-09-17'}, {'Montant des reglements': '258263', 'Date': '2020-09-18'}, {'Montant des reglements': '72011', 'Date': '2020-09-19'}, {'Montant des reglements': '291374', 'Date': '2020-09-20'}, {'Montant des reglements': '510820', 'Date': '2020-09-21'}, {'Montant des reglements': '1510302', 'Date': '2020-09-22'}, {'Montant des reglements': '1493637', 'Date': '2020-09-23'}, {'Montant des reglements': '351481', 'Date': '2020-09-24'}, {'Montant des reglements': '948503', 'Date': '2020-09-25'}, {'Montant des reglements': '333425', 'Date': '2020-09-26'}, {'Montant des reglements': '1658027', 'Date': '2020-09-27'}, {'Montant des reglements': '3339972', 'Date': '2020-09-28'}, {'Montant des reglements': '5762674', 'Date': '2020-09-29'}, {'Montant des reglements': '9433051', 'Date': '2020-09-30'}, {'Montant des reglements': '1280515', 'Date': '2020-10-01'}, {'Montant des reglements': '773438', 'Date': '2020-10-02'}, {'Montant des reglements': '1032437', 'Date': '2020-10-03'}, {'Montant des reglements': '159173', 'Date': '2020-10-04'}, {'Montant des reglements': '600265', 'Date': '2020-10-05'}, {'Montant des reglements': '936646', 'Date': '2020-10-06'}, {'Montant des reglements': '855004', 'Date': '2020-10-07'}, {'Montant des reglements': '233893', 'Date': '2020-10-08'}, {'Montant des reglements': '113711', 'Date': '2020-10-09'}, {'Montant des reglements': '18758', 'Date': '2020-10-10'}, {'Montant des reglements': '171120', 'Date': '2020-10-11'}, {'Montant des reglements': '734948', 'Date': '2020-10-12'}, {'Montant des reglements': '60835', 'Date': '2020-10-13'}, {'Montant des reglements': '462559', 'Date': '2020-10-14'}, {'Montant des reglements': '257549', 'Date': '2020-10-15'}, {'Montant des reglements': '401943', 'Date': '2020-10-16'}, {'Montant des reglements': '14349', 'Date': '2020-10-17'}, {'Montant des reglements': '30852', 'Date': '2020-10-18'}, {'Montant des reglements': '408713', 'Date': '2020-10-19'}, {'Montant des reglements': '87432', 'Date': '2020-10-20'}, {'Montant des reglements': '181486', 'Date': '2020-10-21'}]},
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -5,10 +5,11 @@ import getopt
 import src.log as log
 from src.templater import DefaultTemplater
 from src.client import DonneesClient
+from src.paiement import DonneesPaiement
 
 OUTPUT_FOLDER = "output"
 TEMPLATES_FOLDER = "templates"
-DOMAINES = ["client"]
+DOMAINES = ["client", "paiement"]
 
 
 class Parameters:
@@ -68,6 +69,8 @@ def generate_report(domaine: str):
 
         if domaine == "client":
             datas = DonneesClient().tags
+        elif domaine == "paiement":
+            datas = DonneesPaiement().tags
         
         # Jinja2
         DefaultTemplater(template_path, report_path).render(datas)
