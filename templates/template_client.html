@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/v-charts/lib/style.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.6/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/v-charts@1.19.0/lib/index.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Reporting - Espace Client</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-content>
+                <v-app-bar color="orange darken-4" dense  dark  app clipped-left  elevate-on-scroll>
+                    <v-btn icon href="index.html">
+                        <v-icon>mdi-home</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>
+                        Reporting des données d'utilisation de l'Espace Client <span style="font-size:small;">(généré le ${date})</span>
+                    </v-toolbar-title>
+                </v-app-bar>
+                <v-main>
+                    <v-container fluid>
+                        <br/>
+                        <v-carousel :height="carouselHeight" light hide-delimiter-background show-arrows-on-hover>
+                            <v-carousel-item>
+                                <v-card>
+                                    <v-toolbar dense flat>
+                                        <v-toolbar-title>Comptes créés/activés/désactivés (365 derniers jours)</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre de comptes activés : ${nbComptesActives} 
+                                    </v-chip>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre de comptes créés : ${nbComptesCrees} 
+                                    </v-chip>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre de comptes désactivés : ${nbComptesDesactives} 
+                                    </v-chip>
+                                    <ve-histogram :height="histogramHeight" :data="chartDataComptesDaily" :settings="chartSettingsComptesDaily">
+                                    </ve-histogram>
+                                </v-card>
+                            </v-carousel-item>
+                            <v-carousel-item>
+                                <v-card>
+                                    <v-toolbar dense flat>
+                                        <v-toolbar-title>Moyens de contacts mis à jour depuis l'Espace Client (365 derniers jours)</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre d'adresses modifiées : ${nbAdressesModifiees} 
+                                    </v-chip>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre de téléphones modifiés : ${nbTelephonesModifies} 
+                                    </v-chip>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre d'emails modifiés : ${nbEmailsModifies} 
+                                    </v-chip>
+                                    <ve-histogram :height="histogramHeight" :data="chartDataMajContactDaily" :settings="chartSettingsMajContactDaily">
+                                    </ve-histogram>
+                                </v-card>
+                            </v-carousel-item>
+                            <v-carousel-item>
+                                <v-card>
+                                    <v-toolbar dense flat>
+                                        <v-toolbar-title>Nombre de notifications envoyées (365 derniers jours)</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre total de notifications diffusées : ${nbNotificationsDiffusees} 
+                                    </v-chip>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Nombre total de notifications non éligibles : ${nbNotificationsNonEligibles} 
+                                    </v-chip>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Pourcentage de notifications diffusées : ${pourcentageNotificationsDiffusees} %
+                                    </v-chip>
+                                    <v-chip class="ma-2" color="pink" label text-color="white">
+                                        <v-icon left>mdi-label</v-icon>
+                                        Pourcentage de notifications non éligibles : ${pourcentageNotificationsNonEligibles} %
+                                    </v-chip>
+                                    <ve-histogram :height="histogramHeight" :data="chartDataNotificationsDaily" :settings="chartSettingsNotificationsDaily">
+                                    </ve-histogram>
+                                </v-card>
+                            </v-carousel-item>
+                            <v-carousel-item>
+                                <v-card>
+                                    <v-toolbar dense flat>
+                                        <v-toolbar-title>Volume de notifications par types (365 derniers jours)</v-toolbar-title>
+                                    </v-toolbar>
+                                    <ve-ring class="mt-16" :height="histogramHeight" :data="chartDataNotificationsType" :settings="chartSettingsNotificationsType">
+                                    </ve-ring>
+                                </v-card>
+                            </v-carousel-item>
+                        </v-carousel>
+                    </v-container>
+                </v-main>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script>
+    const app = new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        delimiters: ['${', '}'],
+        data() {
+            return {
+                date: {{date}},
+                carouselHeight: "700px",
+                histogramHeight: "600px",
+                nbComptesActives: {{nbComptesActives}},
+                nbComptesCrees: {{nbComptesCrees}},
+                nbComptesDesactives: {{nbComptesDesactives}},
+                chartSettingsComptesDaily: {
+                    dimension:{{dimComptesDaily}}, 
+                    metrics:{{metricsComptesDaily}}, 
+                    stack:{'statut_compte_assure': ['ACTIVE','CREE','DESACTIVE']} 
+                },
+                chartDataComptesDaily: {
+                    columns:{{colsComptesDaily}}, 
+                    rows:{{rowsComptesDaily}}
+                },
+                nbAdressesModifiees: {{nbAdressesModifiees}},
+                nbTelephonesModifies: {{nbTelephonesModifies}},
+                nbEmailsModifies: {{nbEmailsModifies}},
+                chartSettingsMajContactDaily: {
+                    dimension:{{dimMajContactDaily}}, 
+                    metrics:{{metricsMajContactDaily}}, 
+                    stack:{'nature': ['ADRESSE', 'TELEPHONE', 'EMAIL']} 
+                },
+                chartDataMajContactDaily: {
+                    columns:{{colsMajContactDaily}}, 
+                    rows:{{rowsMajContactDaily}}
+                },
+                nbNotificationsDiffusees: {{nbNotificationsDiffusees}},
+                nbNotificationsNonEligibles: {{nbNotificationsNonEligibles}},
+                pourcentageNotificationsDiffusees: {{pourcentageNotificationsDiffusees}},
+                pourcentageNotificationsNonEligibles: {{pourcentageNotificationsNonEligibles}},
+                chartSettingsNotificationsDaily: {
+                    dimension:{{dimNotificationsDaily}}, 
+                    metrics:{{metricsNotificationsDaily}}, 
+                    stack:{'statut':['Diffusee','Non eligible']} //label:{normal: {show:true, position:"top"}},
+                },
+                chartDataNotificationsDaily: {
+                    columns:{{colsNotificationsDaily}}, 
+                    rows:{{rowsNotificationsDaily}}
+                },
+                chartSettingsNotificationsType: {
+                    //roseType: 'radius', 
+                    dimension:{{dimNotificationsType}}, 
+                    metrics:{{metricsNotificationsType}}
+                },
+                chartDataNotificationsType: {
+                    columns:{{colsNotificationsType}}, 
+                    rows:{{rowsNotificationsType}}
+                },
+            }
+        }
+    })
+</script>
+</body>
+</html>
