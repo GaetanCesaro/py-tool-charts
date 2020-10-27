@@ -2,11 +2,19 @@
 Outil permettant de générer rapidement des graphes d'analyse de données en mode Single Page.
 Les graphes sont contenus dans un fichier html unique que l'on peut facilement partager avec d'autres collaborateurs.
 
-Technos utilisées: python, vue.js, jinja2, vuetify, v-charts, pandas 
-https://jinja.palletsprojects.com/
-https://vuetifyjs.com/fr-FR/introduction/why-vuetify/
-https://v-charts.js.org/#/en/README
-https://pandas.pydata.org/
+![Home](doc/py-tool-chart-home.png)
+![StackBars](doc/py-tool-chart-stackbars.png)
+![PieChart](doc/py-tool-chart-piechart.png)
+
+## Stack
+
+Backend : Python 
+- [Jinja2](https://jinja.palletsprojects.com/)
+- [Pandas](https://pandas.pydata.org/)
+
+Frontend : Vue.js
+- [Vuetify](https://vuetifyjs.com/fr-FR/introduction/why-vuetify/)
+- [v-charts](https://v-charts.js.org/#/en/README)
 
 
 ## Configuration Workspace
